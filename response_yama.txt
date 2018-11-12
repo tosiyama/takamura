@@ -1,0 +1,30 @@
+[12/Nov/2018:12:58:34] ENGINE Listening for SIGTERM.
+[12/Nov/2018:12:58:34] ENGINE Bus STARTING
+CherryPy Checker:
+The Application mounted at '' has an empty config.
+
+[12/Nov/2018:12:58:34] ENGINE Set handler for console events.
+[12/Nov/2018:12:58:34] ENGINE Started monitor thread 'Autoreloader'.
+[12/Nov/2018:12:58:34] ENGINE Serving on http://127.0.0.1:8080
+[12/Nov/2018:12:58:34] ENGINE Bus STARTED
+127.0.0.1 - - [12/Nov/2018:12:59:12] "GET /?code=8278a2a599edfaf7426640a6df94887fb3f0ee70&state=6yuGLR6k6U0CCgCqTtelzwlnIGONIi HTTP/1.1" 200 122 "" "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/7.0)"
+127.0.0.1 - - [12/Nov/2018:12:59:12] "GET /favicon.ico HTTP/1.1" 200 1406 "" "Mozilla/5.0 (Windows NT 6.1; Win64; x64; Trident/7.0; rv:11.0) like Gecko"
+[12/Nov/2018:12:59:13] ENGINE Bus STOPPING
+[12/Nov/2018:12:59:22] ENGINE HTTP Server cherrypy._cpwsgi_server.CPWSGIServer(('127.0.0.1', 8080)) shut down
+[12/Nov/2018:12:59:22] ENGINE Removed handler for console events.
+[12/Nov/2018:12:59:22] ENGINE Stopped thread 'Autoreloader'.
+[12/Nov/2018:12:59:22] ENGINE Bus STOPPED
+[12/Nov/2018:12:59:22] ENGINE Bus EXITING
+[12/Nov/2018:12:59:22] ENGINE Bus EXITED
+[12/Nov/2018:12:59:22] ENGINE Waiting for child threads to terminate...
+You are authorized to access data for the user: Tosiaki YAMANOUCHI
+TOKEN
+=====
+
+access_token = eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ1V0oiLCJzdWIiOiI2WFFDSlMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJhY3QgcnNldCBybG9jIHJ3ZWkgcmhyIHJudXQgcnBybyByc2xlIiwiZXhwIjoxNTQyMDIzOTUwLCJpYXQiOjE1NDE5OTUxNTB9.hQ493ERXC6o9CtIk96wIGzAf9CZNmGVRCNm5aQdJOrQ
+expires_in = 28800
+refresh_token = 78018639dd15c4ea6e6fa912b670e98db38d381ca07b0f4317ca463b99db9a8b
+scope = ['sleep', 'activity', 'location', 'nutrition', 'profile', 'heartrate', 'weight', 'social', 'settings']
+token_type = Bearer
+user_id = 6XQCJS
+expires_at = 1542023952.4518664
