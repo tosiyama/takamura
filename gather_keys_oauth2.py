@@ -73,11 +73,14 @@ class OAuth2Server:
 
 if __name__ == '__main__':
 
-    if not (len(sys.argv) == 3):
-        print("Arguments: client_id and client_secret")
-        sys.exit(1)
+    # if not (len(sys.argv) == 3):
+    #     print("Arguments: client_id and client_secret")
+    #     sys.exit(1)
 
-    server = OAuth2Server(*sys.argv[1:])
+    # server = OAuth2Server(*sys.argv[1:])
+    client_id = '22D5WJ'
+    client_secret = '82d281cf8d5b8c19720f20c04571d691'
+    server = OAuth2Server(client_id, client_secret)
     server.browser_authorize()
 
     profile = server.fitbit.user_profile_get()
