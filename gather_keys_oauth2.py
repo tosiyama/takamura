@@ -91,7 +91,11 @@ def saveTokenData(d, filename):
     msg = ''
     for key, value in d:
         if key in key_list:
-            f2.write('   "{0}": "{1}",'.format(key, value) + '\n')
+            if key == 'expires_in' or key == 'expires_at':
+                f2.write('   "{0}": {1},'.format(key, value) + '\n')
+            else:
+                f2.write('   "{0}": "{1}",'.format(key, value) + '\n')
+            
             if key == 'expires_at':
                 expires_value = value
     
