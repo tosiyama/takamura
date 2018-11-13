@@ -79,25 +79,34 @@ def loadConfigFile(filename):
     param = {}
     param['client_id'] = jsonData['client_id']
     param['client_secret'] = jsonData['client_secret']
-    param['token_filename'] = jsonData['token_file']
+    param['token_file'] = jsonData['token_file']
     return param
 
-def saveTokenData(dict, filename):
+def saveTokenData(d, filename):
+    key_list = ['access_token', 'refresh_token', 'expires_in', 'expires_at']
     f2 = open(filename,'w')
     f2.write('{' + '\n')
-
-    f2.write('   "access_token": "{0}",'.format(dict['access_token']) + '\n')
-    f2.write('   "refresh_token": "{0}",'.format(dict['refresh_token']) + '\n')
-    f2.write('   "expires_in": {0},'.format(dict['expires_in']) + '\n')
-    f2.write('   "expires_at": {0},'.format(dict['expires_at']) + '\n')
-
-    expires_dt =  datetime.datetime.fromtimestamp(dict['expires_at'])
-    s = str(expires_dt)
-    f2.write('   "expires": "{0}"'.format(s + '\n'))
+    
+    expires_value = -1
+    msg = ''
+    for key, value in d:
+        if key in key_list:
+            f2.write('   "{0}": "{1}",'.format(key, value) + '\n')
+            if key == 'expires_at':
+                expires_value = value
+    
+    if expires_value > 0:
+        expires_dt =  datetime.datetime.fromtimestamp(expires_value)
+        s = str(expires_dt)
+        f2.write('   "expires": "{0}"'.format(s) + '\n')
+        msg = '有効期限 {0} までのトークンを取得しました!'.format(s) + '\n'
+        msg = msg + '詳細はJSONファイル {0} をご覧ください!'.format(filename)
+    
     f2.write('}' + '\n')
     f2.close()
-    print('有効期限 {0} までのトークンを取得しました!'.format(s))
-    print('詳細はJSONファイル {0} をご覧ください!'.format(filename))
+
+    if expires_value > 0:
+        print(msg)
 
 
 if __name__ == '__main__':
