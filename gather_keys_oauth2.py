@@ -5,6 +5,8 @@ import sys
 import threading
 import traceback
 import webbrowser
+import json
+import datetime
 
 from base64 import b64encode
 from fitbit.api import Fitbit
@@ -71,16 +73,38 @@ class OAuth2Server:
             threading.Timer(1, cherrypy.engine.exit).start()
 
 
+def loadConfigFile(filename):
+    f = open(filename, 'r')
+    jsonData = json.load(f)
+    param = {}
+    param['client_id'] = jsonData['client_id']
+    param['client_secret'] = jsonData['client_secret']
+    param['token_filename'] = jsonData['token_file']
+    return param
+
+def saveTokenData(dict, filename):
+    f2 = open(filename,'w')
+    f2.write('{' + '\n')
+
+    f2.write('   "access_token": "{0}",'.format(dict['access_token']) + '\n')
+    f2.write('   "refresh_token": "{0}",'.format(dict['refresh_token']) + '\n')
+    f2.write('   "expires_in": {0},'.format(dict['expires_in']) + '\n')
+    f2.write('   "expires_at": {0},'.format(dict['expires_at']) + '\n')
+
+    expires_dt =  datetime.datetime.fromtimestamp(dict['expires_at'])
+    s = str(expires_dt)
+    f2.write('   "expires": "{0}"'.format(s + '\n'))
+    f2.write('}' + '\n')
+    f2.close()
+    print('有効期限 {0} までのトークンを取得しました!'.format(s))
+    print('詳細はJSONファイル {0} をご覧ください!'.format(filename))
+
+
 if __name__ == '__main__':
+    config_filename = 'config.json'
+    param = loadConfigFile(config_filename)
 
-    # if not (len(sys.argv) == 3):
-    #     print("Arguments: client_id and client_secret")
-    #     sys.exit(1)
-
-    # server = OAuth2Server(*sys.argv[1:])
-    client_id = '22D5WJ'
-    client_secret = '82d281cf8d5b8c19720f20c04571d691'
-    server = OAuth2Server(client_id, client_secret)
+    server = OAuth2Server(param['client_id'], param['client_secret'])
     server.browser_authorize()
 
     profile = server.fitbit.user_profile_get()
@@ -88,5 +112,4 @@ if __name__ == '__main__':
         profile['user']['fullName']))
 
     print('TOKEN\n=====\n')
-    for key, value in server.fitbit.client.session.token.items():
-        print('{} = {}'.format(key, value))
+    saveTokenData(server.fitbit.client.session.token.items(), param['token_file'])
