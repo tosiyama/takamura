@@ -33,27 +33,34 @@ def saveAsCSV(filename, data):
     csv_file.close()
 
 def worker():
-    # global ac
-    # data_sec = ac.intraday_time_series('activities/heart', date, detail_level='1sec')
-    # heart_sec = data_sec["activities-heart-intraday"]["dataset"]
-    # print('[{0}] {1}, {2}\n'.format(time.time(), heart_sec[-1]['time'], heart_sec[-1]['value']))
-    print(time.time())
+    global ac
+    data_sec = ac.intraday_time_series('activities/heart', date, detail_level='1sec')
+    heart_sec = data_sec["activities-heart-intraday"]["dataset"]
+    dt =  datetime.datetime.fromtimestamp(time.time())
+    print('[{0}] {1}, {2}'.format(str(dt), heart_sec[-1]['time'], heart_sec[-1]['value']))
 
-def schedule(interval, f, wait=True):
-    base_time = time.time()
+
+def schedule(interval, f, num):
+    base_time = 0
     next_time = 0
     c = 0
     while True:
+        base_time = time.time()
         t = threading.Thread(target=f)
+        t.daemon = True
         t.start()
+        t.join()
         
         c = c + 1
-        if c >= 10:
+        if c >= num:
             break
         
-        next_time = ((time.time() - base_time) % interval) or interval
+        next_time = interval - (time.time() - base_time)
         print(next_time)
-        time.sleep(next_time)
+        if next_time > 0:
+            time.sleep(next_time)
+
+
 
 if __name__ == '__main__':
     dt = datetime.datetime.now()
@@ -75,6 +82,6 @@ if __name__ == '__main__':
 
     ac = fitbit.Fitbit(param['client_id'], param['client_secret'], param['access_token'], param['refresh_token'])
 
-    schedule(5, 10, worker)
+    schedule(10, worker, 10)
 
 
