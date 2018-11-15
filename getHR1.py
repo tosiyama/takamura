@@ -31,14 +31,11 @@ def saveAsCSV(filename, data):
     
     csv_file.close()
 
-
-
 if __name__ == '__main__':
     # 取得したい心拍数データの日付    
     date = '2018-11-11'
-
     csv_filename = 'HR_{0}.csv'.format(date)
-    
+
     config_filename = 'config.json'
     param = loadConfig_TokenFile(config_filename)
 
@@ -56,5 +53,5 @@ if __name__ == '__main__':
     data_sec = ac.intraday_time_series('activities/heart', date, detail_level='1sec') #'1sec', '1min', or '15min'
     heart_sec = data_sec["activities-heart-intraday"]["dataset"]
     print(heart_sec[:10])
-
     saveAsCSV(csv_filename, heart_sec)
+
